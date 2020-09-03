@@ -32,6 +32,7 @@ namespace ChuSTL {
 		new (p) T1(value);							// placement new. invoke ctor of T1
 	}
 
+	//第一版本，接受一个指针
 	template<typename T>
 	inline void _destroy(T* ptr) {
 		ptr->~T();
