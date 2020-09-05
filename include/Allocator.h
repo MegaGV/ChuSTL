@@ -9,6 +9,8 @@
 #include <climits>		// for UINT_MAX
 #include <iostream>		// for cerr
 
+//#include <type_traits>
+
 namespace ChuSTL {
 
 	template<typename T>
@@ -29,14 +31,47 @@ namespace ChuSTL {
 
 	template<typename T1, typename T2>
 	inline void _construct(T1* p, const T2& value) {
-		new (p) T1(value);							// placement new. invoke ctor of T1
+		new (p) T1(value);							// 调用T1::T1(value)
 	}
 
-	//第一版本，接受一个指针
+	// 第一版本，接受一个指针
 	template<typename T>
 	inline void _destroy(T* ptr) {
 		ptr->~T();
 	}
+
+	// 第二版本，接受两个迭代器
+	// 利用value_type获取类型，再利用__type_traits<>判断是否其析构函数是否重要————trivial destructor
+	template<class ForwardIterator>
+	inline void destroy(ForwardIterator first, ForwardIterator last) {
+		__destroy(first, last, value_type(first));
+	}
+
+	// 判断元素数值类型是否有trivial destructor，指...
+	// 如果用户不定义析构函数，而是用系统自带的，则说明析构函数基本没有什么用（但默认会被调用）
+	template<class ForwardIterator, class T>
+	inline void __destroy(ForwardIterator first, ForwardIterator last, T*) {
+		typedef typename __type_traits<T>::has_trivial_destructor trivial_destructor;
+		__destroy_aux(fist, last, trivial_destructor());
+	}
+
+	// 如果元素的数值类型没有trivial destructor
+	template<class ForwardIterator, class T>
+	inline void
+		__destroy_aux(ForwardIterator first, ForwardIterator last, std::false_type) { // __false_type
+		for (; first < last; ++first) {
+			destroy(&*first);
+		}
+	}
+
+	// 如果元素的数值类型有trivial destructor
+	template<class ForwardIterator>
+	inline void
+		__destroy_aux(ForwardIterator first, ForwardIterator last, std::true_type) { } // __true_type
+
+	//对char*和wchar_t*的特化版
+	inline void destroy(char*, char*) {}
+	inline void destroy(wchar_t*, wchar_t*) {}
 
 	template<typename T>
 	class allocator 
@@ -98,6 +133,7 @@ namespace ChuSTL {
 
 	};
 
+	
 }
 
-#endif
+#endif  // !_CHUSTL_ALLOCATOR_H_
