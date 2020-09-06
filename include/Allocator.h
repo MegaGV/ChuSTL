@@ -69,7 +69,7 @@ namespace ChuSTL {
 	inline void
 		__destroy_aux(ForwardIterator first, ForwardIterator last, std::true_type) { } // __true_type
 
-	//对char*和wchar_t*的特化版
+	// 对char*和wchar_t*的特化版
 	inline void destroy(char*, char*) {}
 	inline void destroy(wchar_t*, wchar_t*) {}
 
