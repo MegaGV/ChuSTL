@@ -9,7 +9,7 @@
 #include <climits>		// for UINT_MAX
 #include <iostream>		// for cerr
 
-//#include <type_traits>
+#include "TypeTraits.h"
 
 namespace ChuSTL {
 
