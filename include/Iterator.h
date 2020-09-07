@@ -139,14 +139,14 @@ namespace ChuSTL {
 	template<class BidirectionalIterator, class Distance>
 	inline void __advance(BidirectionalIterator& it, Distance n, bidirectional_iterator_tag) {
 		if (n >= 0)
-			while (n--) ++i;
+			while (n--) ++it;
 		else
-			while (n++) --i;
+			while (n++) --it;
 	}
 
 	template<class RandomAccessIterator, class Distance>
 	inline void __advance(RandomAccessIterator& it, Distance n, random_access_iterator_tag) {
-		i += n;
+		it += n;
 	}
 
 	/*
@@ -156,7 +156,7 @@ namespace ChuSTL {
 	*/
 	template<class InputIterator, class Distance>
 	inline void advance(InputIterator& it, Distance n) {
-		__advance(i, n, iterator_traits<InputIterator>::iterator_category());
+		__advance(it, n, iterator_traits<InputIterator>::iterator_category());
 	}
 
 	/*
@@ -180,7 +180,7 @@ namespace ChuSTL {
 	template<class InputIterator>
 	inline typename iterator_traits<InputIterator>::difference_type
 		distance(InputIterator first, InputIterator last) {
-		typedef typename iterator_traits<Iterator>::iterator_category category;
+		typedef typename iterator_traits<InputIterator>::iterator_category category;
 		return __distance(first, last, category());
 	}
 }
