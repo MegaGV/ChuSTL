@@ -14,23 +14,23 @@ namespace ChuSTL {
 
 	template<class T>
 	struct __list_node {
-		typedef void* void_pointer;
-		void_pointer prev;	// or __list_node<T>*
-		void_pointer next;
 		T data;
+		__list_node<T>* prev;
+		__list_node<T>* next;
 	};
 
 	template<class T, class Ref, class Ptr>
 	struct __list_iterator {
-		typedef __list_iterator<T, T&, T*>		iterator;
-		typedef __list_iterator<T, Ref, Ptr>	self;
-		typedef __list_node<T>* link_type;
-		typedef bidirectional_iterator_tag		iterator_category;
 		typedef T								value_type;
 		typedef Ptr								pointer;
 		typedef Ref								reference;
 		typedef size_t							size_type;
 		typedef ptrdiff_t						difference_type;
+
+		typedef bidirectional_iterator_tag		iterator_category;
+		typedef __list_iterator<T, T&, T*>		iterator;
+		typedef __list_iterator<T, Ref, Ptr>	self;
+		typedef __list_node<T>*					link_type;
 
 		// 迭代器内的普通指针，指向list节点
 		link_type node;
@@ -42,33 +42,26 @@ namespace ChuSTL {
 		bool operator== (const self& x) const {
 			return node == x.node;
 		}
-
 		bool operator!= (const self& x) const {
 			return node != x.node;
 		}
-
 		reference operator* () const {
 			return (*node).data;
 		}
-
 		pointer operator-> () const {
 			return &(operator* ());
 		}
-
 		self& operator++() {
 			node = (link_type)((*node).next);
 		}
-
 		self& operator++(int) {
 			self tmp = *this;
 			++* this;
 			return tmp;
 		}
-
 		self& operator--() {
 			node = (link_type)((*node).prev);
 		}
-
 		self& operator--(int) {
 			self tmp = *this;
 			--* this;
@@ -79,6 +72,9 @@ namespace ChuSTL {
 	// SGI list是一个环状双向链表
 	template<class T, class Alloc> // Alloc = alloc
 	class list {
+	public:
+		typedef list_node* link_type;
+
 	protected:
 		typedef __list_node<T> list_node;
 		// 专属空间配置器，每次配置一个节点大小
@@ -86,9 +82,6 @@ namespace ChuSTL {
 		// 用一个指针表示整个环状双向链表
 		// node指向尾端的一个空白节点，符合STL前闭后开条件
 		link_type node;
-
-	public:
-		typedef list_node* link_type; 
 
 	protected:
 		// 配置、释放、构造、销毁节点
