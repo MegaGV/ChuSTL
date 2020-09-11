@@ -23,6 +23,11 @@ namespace ChuSTL {
 		}
 	};
 
+	template<int inst>
+	class alloc {
+
+	};
+
 }
 
-#endif // DEBUG
+#endif // _CHUSTL_ALLOC_H_
