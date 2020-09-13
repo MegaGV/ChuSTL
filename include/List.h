@@ -21,16 +21,17 @@ namespace ChuSTL {
 
 	template<class T, class Ref, class Ptr>
 	struct __list_iterator {
-		typedef T								value_type;
-		typedef Ptr								pointer;
-		typedef Ref								reference;
-		typedef size_t							size_type;
-		typedef ptrdiff_t						difference_type;
+		typedef T											value_type;
+		typedef Ptr											pointer;
+		typedef Ref											reference;
+		typedef size_t										size_type;
+		typedef ptrdiff_t									difference_type;
 
-		typedef bidirectional_iterator_tag		iterator_category;
-		typedef __list_iterator<T, T&, T*>		iterator;
-		typedef __list_iterator<T, Ref, Ptr>	self;
-		typedef __list_node<T>*					link_type;
+		typedef bidirectional_iterator_tag					iterator_category;
+		typedef __list_iterator<T, Ref, Ptr>				self;
+		typedef __list_iterator<T, T&, T*>					iterator;
+		typedef __list_iterator<T, const T&, const T*>		const_iterator;
+		typedef __list_node<T>*								link_type;
 
 		// 迭代器内的普通指针，指向list节点
 		link_type node;
