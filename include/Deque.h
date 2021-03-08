@@ -34,8 +34,8 @@ namespace ChuSTL {
 		}
 		// 如果n不为0，返回n，表示buffer size用户自定义
 		// 如果n为0，表示buffer size使用默认值，即
-		//	如果sz（元素大小，sizeof(value_type)）小于512， 返回 512/sz
-		//	如果sz大于512， 返回1
+		// 如果sz（元素大小，sizeof(value_type)）小于512， 返回 512/sz
+		// 如果sz大于512， 返回1
 		inline size_type __deque_buf_size(size_type n, size_type sz) {
 			return n != 0 ? n : (sz < 512 ? size_type(512 / sz) : size_type(1));
 		}
@@ -58,7 +58,7 @@ namespace ChuSTL {
 		self& operator++() {
 			++cur;
 			if (cur == last) {
-				self_node(node + 1);
+				set_node(node + 1);
 				cur = first;
 			}
 			return *this;
@@ -70,7 +70,7 @@ namespace ChuSTL {
 		}
 		self& operator--() {
 			if (cur == first) {
-				self_node(node - 1);
+				set_node(node - 1);
 				cur = last;
 			}
 			--cur;

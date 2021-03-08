@@ -52,7 +52,7 @@ namespace ChuSTL {
 	template<class ForwardIterator, class T>
 	inline void __destroy(ForwardIterator first, ForwardIterator last, T*) {
 		typedef typename __type_traits<T>::has_trivial_destructor trivial_destructor;
-		__destroy_aux(fist, last, trivial_destructor());
+		__destroy_aux(first, last, trivial_destructor());
 	}
 
 	// 如果元素的数值类型没有trivial destructor

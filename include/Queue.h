@@ -13,10 +13,10 @@ namespace ChuSTL {
 		friend bool operator< (const queue&, const queue&);
 
 	public:
-		typedef typename Container::value_type value_type;
-		typedef typename Container::size_type size_type;
-		typedef typename Container::reference reference;
-		typedef typename Container::const_reference const_reference;
+		typedef typename Container::value_type		value_type;
+		typedef typename Container::size_type		size_type;
+		typedef typename Container::reference		reference;
+		typedef typename Container::const_reference	const_reference;
 
 	protected:
 		Container c;
